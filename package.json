@@ -7,6 +7,10 @@
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8"
   },
+  "devDependencies": {
+    "eslint-config-prettier": "^4.1.0",
+    "prettier": "^1.17.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -14,7 +18,16 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "prettier"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
   },
   "browserslist": [
     ">0.2%",
