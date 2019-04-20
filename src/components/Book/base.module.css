@@ -1,7 +1,11 @@
 .grid {
+  margin: 10px;
   display: flex;
   flex-direction: row;
   width: 100%;
+  background-color: #1b262d;
+  z-index: -2;
+  max-width: 800px;
 }
 .side {
   display: flex;
@@ -22,9 +26,8 @@
   bottom: 0;
   left: 0;
   width: 50%;
-  opacity: 0.5;
-  background-color: red;
-  z-index: -1;
+  background-color: rgba(255, 0, 0, 0.2);
+  z-index: 0;
 }
 .bidDepth {
   position: absolute;
@@ -32,12 +35,12 @@
   bottom: 0;
   right: 0;
   width: 50%;
-  opacity: 0.5;
-  background-color: green;
-  z-index: -1;
+  background-color: rgba(0, 255, 0, 0.2);
+  z-index: 0;
 }
 .col {
+  position: relative;
+  z-index: 1;
   flex-grow: 1;
   flex-basis: 0;
-  border: 1px solid #ccc;
 }

@@ -1,9 +1,10 @@
 .base {
+  margin: 10px;
   display: flex;
   flex-direction: row;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   background-color: #1b262d;
-  color: white;
 }
 
 .icon {

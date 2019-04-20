@@ -1,7 +1,10 @@
 .grid {
+  margin: 10px;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
+  max-width: 500px;
+  background-color: #1b262d;
 }
 
 .row {
@@ -14,5 +17,4 @@
 .col {
   flex-grow: 1;
   flex-basis: 0;
-  border: 1px solid #ccc;
 }

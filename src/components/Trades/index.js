@@ -11,17 +11,23 @@ const Trades = ({ trades }) => {
       <div className={styles.row}>
         <div className={styles.col}>Trades</div>
       </div>
-      {Object.values(trades).map(trade => (
-        <div className={styles.row} key={trade.id}>
-          <div className={styles.col}>
-            {format(parse(trade.mts), 'hh:mm:ss')}
-          </div>
-          <div className={styles.col}>
-            {Math.round(trade.price * 100) / 100}
-          </div>
-          <div className={styles.col}>
-            {Math.round(trade.amount * 100) / 100}
-          </div>
+      <div className={styles.row}>
+        <div className={styles.col}>Time</div>
+        <div className={styles.col}>Price</div>
+        <div className={styles.col}>Amount</div>
+      </div>
+      {Object.values(trades).map(({ id, mts, price, amount }) => (
+        <div
+          className={styles.row}
+          key={id}
+          style={{
+            backgroundColor:
+              amount > 0 ? 'rgba(0,255,0,0.1)' : 'rgba(255,0,0,0.1)',
+          }}
+        >
+          <div className={styles.col}>{format(parse(mts), 'hh:mm:ss')}</div>
+          <div className={styles.col}>{Math.round(price * 100) / 100}</div>
+          <div className={styles.col}>{Math.round(amount * 100) / 100}</div>
         </div>
       ))}
     </div>

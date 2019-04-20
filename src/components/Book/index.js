@@ -35,79 +35,66 @@ const Book = ({ asks, bids }) => {
   }
 
   return (
-    <div className={styles.base}>
-      <div className={styles.row}>
-        <div className={styles.col}>Order Book</div>
+    <div className={styles.grid}>
+      <div className={styles.side}>
+        <div className={styles.row}>
+          <div className={styles.col}>Bids</div>
+        </div>
+        <div className={styles.row}>
+          <div className={styles.col}>Count</div>
+          <div className={styles.col}>Amount</div>
+          <div className={styles.col}>Total</div>
+          <div className={styles.col}>Price</div>
+        </div>
+        {Object.values(bids)
+          .sort(sortByPriceDesc)
+          .map(({ count, amount, price, total }) => (
+            <div className={styles.row} key={price}>
+              <div
+                className={styles.bidDepth}
+                style={{
+                  width:
+                    Math.round(normalize(total, accBidTotal, 0) * 100) + '%',
+                }}
+              />
+              <div className={styles.col}>{count}</div>
+              <div className={styles.col}>{Math.round(amount * 100) / 100}</div>
+              <div className={styles.col}>{Math.round(total * 100) / 100}</div>
+              <div className={styles.col}>{Math.round(price * 100) / 100}</div>
+            </div>
+          ))}
       </div>
-      <div className={styles.grid}>
-        <div className={styles.side}>
-          <div className={styles.row}>
-            <div className={styles.col}>Bids</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.col}>Count</div>
-            <div className={styles.col}>Amount</div>
-            <div className={styles.col}>Total</div>
-            <div className={styles.col}>Price</div>
-          </div>
-          {Object.values(bids)
-            .sort(sortByPriceDesc)
-            .map(({ count, amount, price, total }) => (
-              <div className={styles.row} key={price}>
-                <div
-                  className={styles.bidDepth}
-                  style={{
-                    width:
-                      Math.round(normalize(total, accBidTotal, 0) * 100) + '%',
-                  }}
-                />
-                <div className={styles.col}>{count}</div>
-                <div className={styles.col}>
-                  {Math.round(amount * 100) / 100}
-                </div>
-                <div className={styles.col}>
-                  {Math.round(total * 100) / 100}
-                </div>
-                <div className={styles.col}>
-                  {Math.round(price * 100) / 100}
-                </div>
-              </div>
-            ))}
+      <div className={styles.side}>
+        <div className={styles.row}>
+          <div className={styles.col}>Ask</div>
         </div>
-        <div className={styles.side}>
-          <div className={styles.row}>
-            <div className={styles.col}>Ask</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.col}>Price</div>
-            <div className={styles.col}>Total</div>
-            <div className={styles.col}>Amount</div>
-            <div className={styles.col}>Count</div>
-          </div>
-          {askValues.map(({ count, amount, price, total }) => {
-            return (
-              <div className={styles.row} key={price}>
-                <div
-                  className={styles.askDepth}
-                  style={{
-                    width:
-                      Math.round(normalize(total, accAskTotal, 0) * 100) + '%',
-                  }}
-                />
-                <div className={styles.col}>
-                  {Math.round((price * 100) / 100)}
-                </div>
-                <div className={styles.col}>
-                  {Math.round(total * 100) / 100}
-                </div>
-                <div className={styles.col}>
-                  {Math.round(amount * -100) / 100}
-                </div>
-                <div className={styles.col}>{count}</div>
-              </div>
-            );
-          })}
+        <div className={styles.row}>
+          <div className={styles.col}>Price</div>
+          <div className={styles.col}>Total</div>
+          <div className={styles.col}>Amount</div>
+          <div className={styles.col}>Count</div>
         </div>
+        {askValues.map(({ count, amount, price, total }) => {
+          return (
+            <div className={styles.row} key={price}>
+              <div
+                className={styles.askDepth}
+                style={{
+                  width:
+                    Math.round(normalize(total, accAskTotal, 0) * 100) + '%',
+                }}
+              />
+              <div className={styles.col}>
+                {Math.round((price * 100) / 100)}
+              </div>
+              <div className={styles.col}>{Math.round(total * 100) / 100}</div>
+              <div className={styles.col}>
+                {Math.round(amount * -100) / 100}
+              </div>
+              <div className={styles.col}>{count}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
