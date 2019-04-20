@@ -46,6 +46,9 @@ export class WebsocketConnection extends React.Component {
           event: 'subscribe',
           channel: 'book',
           symbol: 'tBTCUSD',
+          prec: 'P1',
+          freq: 'F1',
+          len: '25',
         }),
       );
 
