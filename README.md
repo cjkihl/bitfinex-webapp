@@ -12,6 +12,10 @@ This is a simple test on how to use bitfinex Websocket API with React.
 
 ⭐️ Books for BTC/USD
 
+✅ Change Precision
+
+✅ Debth Bars
+
 
 # Todo ✏️
 
