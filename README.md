@@ -1,4 +1,25 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Test of Bitfinex Websocket API v2 #
+
+This is a simple test on how to use bitfinex Websocket API with React.
+
+## Included components
+
+⭐️ Trading BTC/USD
+
+⭐️ Ticker for BTC/USD
+
+⭐️ Books for BTC/USD
+
+
+# Todo ✏️
+
+* Styling, Only very basic styling is included
+* Error handling
+* Unit tests
+* Orderbook: depth bars
+* Orderbook: Change scaling of depth bars
+* Orderbook: Sorting
+* Orderbook: Change precision
 
 ## Available Scripts
 
