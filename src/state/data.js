@@ -79,6 +79,43 @@ export const setTradesChannel = payload => ({
   payload,
 });
 
+const TICKER_SET_DATA = 'TICKER_SET_DATA';
+
+export const setTickerData = (symbol, array) => {
+  const [
+    bid,
+    bidSize,
+    ask,
+    askSize,
+    dailyChange,
+    dailyChangePerc,
+    lastPrice,
+    volume,
+    high,
+    low,
+  ] = array;
+
+  const data = {
+    bid,
+    bidSize,
+    ask,
+    askSize,
+    dailyChange,
+    dailyChangePerc,
+    lastPrice,
+    volume,
+    high,
+    low,
+  };
+  return {
+    type: TICKER_SET_DATA,
+    payload: {
+      symbol,
+      data,
+    },
+  };
+};
+
 export default (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -112,8 +149,6 @@ export default (state = initialState, action) => {
         // eslint-disable-next-line eqeqeq
         if (key != payload && state.book.bids.hasOwnProperty(key)) {
           bids[key] = state.book.bids[key];
-        } else {
-          console.log('Bid removed', payload);
         }
       }
       return {
@@ -138,6 +173,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         book: { ...state.book, ...payload },
+      };
+    }
+    case TICKER_SET_DATA: {
+      console.log('reducer set', payload.data);
+      return {
+        ...state,
+        ticker: { ...state.ticker, [payload.symbol]: payload.data },
       };
     }
     default:
