@@ -1,0 +1,16 @@
+.base {
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+}
+
+.icon {
+  flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  flex-basis: 0;
+  flex-grow: 1;
+}
