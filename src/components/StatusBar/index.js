@@ -1,4 +1,5 @@
 import React from 'react';
+import * as styles from './base.module.css';
 
 export default ({ connect, disconnect, status }) => {
   let onClick = null;
@@ -21,8 +22,8 @@ export default ({ connect, disconnect, status }) => {
   }
 
   return (
-    <div>
-      <button onClick={onClick} disabled={disabled}>
+    <div className={styles.base}>
+      <button className={styles.button} onClick={onClick} disabled={disabled}>
         {text}
       </button>
     </div>

@@ -1,0 +1,19 @@
+.base {
+  width: 100vw;
+  background-color: #1b262d;
+  height: 45px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.8;
+  color: white;
+  transition: opacity 125ms ease;
+}

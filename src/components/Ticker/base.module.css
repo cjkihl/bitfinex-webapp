@@ -2,9 +2,12 @@
   display: flex;
   flex-direction: row;
   width: 500px;
+  background-color: #1b262d;
+  color: white;
 }
 
 .icon {
+  display: flex;
   flex-grow: 0;
   align-items: center;
   justify-content: center;

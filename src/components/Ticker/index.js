@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Btc from '../../icons/Btc';
 import * as styles from './base.module.css';
 
 const Ticker = ({ symbol }) =>
   symbol ? (
     <div className={styles.base}>
       <div className={styles.icon}>
-        <span>[B]</span>
+        <Btc />
       </div>
       <div className={styles.info}>
         <p>BTC/USD</p>
