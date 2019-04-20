@@ -60,7 +60,6 @@ export const replaceBookData = data => {
       book.asks[price] = { price, count, amount };
     }
   }
-  console.log('book', book);
   return {
     type: BOOK_REPLACE,
     payload: book,

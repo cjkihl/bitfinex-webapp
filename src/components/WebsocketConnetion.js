@@ -32,7 +32,7 @@ export class WebsocketConnection extends React.Component {
 
     this.socket.addEventListener('open', event => {
       // Dispatch Connection opened
-      console.log('OPEN', event);
+      console.log('Connected', event);
       this.props.setStatus('online');
 
       this.socket.send(
@@ -83,8 +83,6 @@ export class WebsocketConnection extends React.Component {
 
       if (Array.isArray(msg)) {
         this.onDataReceived(msg);
-      } else {
-        console.log('Not array', msg);
       }
     });
   };
@@ -137,11 +135,9 @@ export class WebsocketConnection extends React.Component {
       case trades.channel.chanId:
         if (Array.isArray(data) && data.length > 0) {
           if (Array.isArray(data[0])) {
-            console.log('Replace trades', data);
             // Todo support for more symbols
             this.props.replaceTradesData('tBTCUSD', data);
           } else {
-            console.log('Update trade', data);
             // Todo support for more symbols
             this.props.updateTradesData('tBTCUSD', data);
           }

@@ -8,9 +8,11 @@ const Trades = ({ trades }) => {
 
   return (
     <div className={styles.grid}>
-      <div className={styles.row}>Trades</div>
+      <div className={styles.row}>
+        <div className={styles.col}>Trades</div>
+      </div>
       {Object.values(trades).map(trade => (
-        <div className={styles.row}>
+        <div className={styles.row} key={trade.id}>
           <div className={styles.col}>
             {format(parse(trade.mts), 'hh:mm:ss')}
           </div>
