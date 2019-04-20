@@ -2,7 +2,7 @@
 
 This is a simple test on how to use bitfinex Websocket API with React.
 
-![image](https://user-images.githubusercontent.com/1438153/56456270-86da1d00-639c-11e9-976d-6cde6355a299.png)
+![image](https://user-images.githubusercontent.com/1438153/56457237-2651dc80-63aa-11e9-8dda-6f7a8360f829.png)
 
 ## Included components
 
