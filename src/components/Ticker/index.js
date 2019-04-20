@@ -12,7 +12,7 @@ const Ticker = ({ symbol }) =>
       <div className={styles.info}>
         <p>BTC/USD</p>
         <p>VOL: {Math.round(symbol.volume)} BTC</p>
-        <p>LOW: {symbol.low}</p>
+        <p>LOW: {Math.round(symbol.low * 100) / 100}</p>
       </div>
       <div className={styles.info}>
         <p>{symbol.lastPrice}</p>
@@ -20,7 +20,7 @@ const Ticker = ({ symbol }) =>
           CHANGE: {symbol.dailyChange} (
           {Math.round(symbol.dailyChangePerc * 10000) / 100}%)
         </p>
-        <p>HIGH: {symbol.high}</p>
+        <p>HIGH: {Math.round(symbol.high * 100) / 100}</p>
       </div>
     </div>
   ) : null;
