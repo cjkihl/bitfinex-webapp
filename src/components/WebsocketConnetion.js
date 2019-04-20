@@ -6,28 +6,42 @@ import {
   setTradesChannel,
   updateBookData,
   replaceBookData,
+  setTickerData,
 } from '../state/data';
+import { setWebsocketStatus } from '../state/socket';
 
 const channels = {};
 
 export class WebsocketConnection extends React.Component {
   componentDidMount() {
+    this.connect();
+  }
+
+  connect = () => {
+    if (this.props.isConnected) {
+      console.warn('Already connected');
+      return;
+    }
+    console.log('Connecting to Websocket');
+    this.props.setStatus('loading');
     // Connect to websocket
     // Create WebSocket connection.
-    const socket = new WebSocket('wss://api-pub.bitfinex.com/ws/2');
+    this.socket = new WebSocket('wss://api-pub.bitfinex.com/ws/2');
 
-    socket.addEventListener('open', event => {
+    this.socket.addEventListener('open', event => {
       // Dispatch Connection opened
+      console.log('OPEN', event);
+      this.props.setStatus('online');
 
-      //   socket.send(
-      //     JSON.stringify({
-      //       event: 'subscribe',
-      //       channel: 'ticker',
-      //       symbol: 'tBTCUSD',
-      //     }),
-      //   );
+      this.socket.send(
+        JSON.stringify({
+          event: 'subscribe',
+          channel: 'ticker',
+          symbol: 'tBTCUSD',
+        }),
+      );
 
-      socket.send(
+      this.socket.send(
         JSON.stringify({
           event: 'subscribe',
           channel: 'book',
@@ -44,11 +58,20 @@ export class WebsocketConnection extends React.Component {
       //   );
     });
 
+    this.socket.onerror = event => {
+      console.error('WebSocket error observed:', event);
+      this.props.setStatus('offline');
+    };
+
+    this.socket.onclose = event => {
+      console.log('Websocket is closed');
+      this.props.setStatus('offline');
+    };
+
     // Listen for messages
-    socket.addEventListener('message', event => {
+    this.socket.addEventListener('message', event => {
       const msg = JSON.parse(event.data);
       if (msg.event) {
-        console.log(msg);
         if (msg.event === 'subscribed') {
           channels[msg.chanId] = msg.channel;
           this.onChannelSubscribed(msg);
@@ -61,14 +84,15 @@ export class WebsocketConnection extends React.Component {
       } else {
         console.log('Not array', msg);
       }
-
-      const [chanId, data] = msg;
-      const chan = channels[chanId];
-      if (chan !== 'book') {
-        console.log('ChanID', channels[chanId], 'data', data, msg);
-      }
     });
-  }
+  };
+
+  disconnect = () => {
+    if (this.socket) {
+      this.props.setStatus('loading');
+      this.socket.close();
+    }
+  };
 
   onChannelSubscribed = data => {
     switch (data.channel) {
@@ -102,11 +126,23 @@ export class WebsocketConnection extends React.Component {
           }
         }
         break;
+      case ticker.channel.chanId:
+        if (Array.isArray(data)) {
+          // Todo support for multiple symbols
+          this.props.setTickerData('tBTCUSD', data);
+        }
+        break;
       default:
         console.warn('Message for unknown channel received', chanId);
     }
   };
-  render = () => null;
+  render = () =>
+    this.props.children &&
+    this.props.children({
+      connect: this.connect,
+      disconnect: this.disconnect,
+      status: this.props.status,
+    });
 }
 
 export default connect(
@@ -114,6 +150,7 @@ export default connect(
     ticker: state.data.ticker,
     book: state.data.book,
     trades: state.data.trades,
+    status: state.socket.status,
   }),
   dispatch => ({
     setBookChannel: data => dispatch(setBookChannel(data)),
@@ -121,5 +158,7 @@ export default connect(
     setTradesChannel: data => dispatch(setTradesChannel(data)),
     updateBookData: data => dispatch(updateBookData(data)),
     replaceBookData: data => dispatch(replaceBookData(data)),
+    setTickerData: (symbol, data) => dispatch(setTickerData(symbol, data)),
+    setStatus: status => dispatch(setWebsocketStatus(status)),
   }),
 )(WebsocketConnection);

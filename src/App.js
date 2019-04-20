@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import logo from './logo.svg';
 import './App.css';
 import WebsocketConnection from './components/WebsocketConnetion';
 import rootReducer from './state';
+import Book from './components/Book';
+import Ticker from './components/Ticker';
+import StatusBar from './components/StatusBar';
 
 class App extends Component {
   render() {
@@ -17,21 +19,17 @@ class App extends Component {
         )}
       >
         <div className="App">
-          <WebsocketConnection />
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header>
+          <WebsocketConnection>
+            {({ connect, disconnect, status }) => (
+              <StatusBar
+                connect={connect}
+                disconnect={disconnect}
+                status={status}
+              />
+            )}
+          </WebsocketConnection>
+          <Book />
+          <Ticker />
         </div>
       </Provider>
     );
