@@ -17,8 +17,8 @@ const Ticker = ({ symbol }) =>
       <div className={styles.info}>
         <p>{symbol.lastPrice}</p>
         <p>
-          CHANGE: {symbol.dailyChange},{' '}
-          {Math.round(symbol.dailyChangePerc * 10000) / 100} %{' '}
+          CHANGE: {symbol.dailyChange}
+          {Math.round(symbol.dailyChangePerc * 10000) / 100}%
         </p>
         <p>HIGH: {symbol.high}</p>
       </div>
