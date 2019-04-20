@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import './App.css';
-import WebsocketConnection from './components/WebsocketConnetion';
+import WebsocketConnection from './components/WebsocketConnection';
 import rootReducer from './state';
 import Book from './components/Book';
 import Ticker from './components/Ticker';
