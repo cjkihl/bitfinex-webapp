@@ -16,4 +16,5 @@
   opacity: 0.8;
   color: white;
   transition: opacity 125ms ease;
+  margin: 0 10px;
 }

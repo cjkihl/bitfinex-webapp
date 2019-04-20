@@ -12,11 +12,15 @@ import {
 } from '../state/data';
 import { setWebsocketStatus } from '../state/socket';
 
-const channels = {};
-
 export class WebsocketConnection extends React.Component {
   componentDidMount() {
     this.connect();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.bookPrec !== nextProps.bookPrec) {
+      this.refreshBook({ prec: nextProps.bookPrec });
+    }
   }
 
   connect = () => {
@@ -46,7 +50,7 @@ export class WebsocketConnection extends React.Component {
           event: 'subscribe',
           channel: 'book',
           symbol: 'tBTCUSD',
-          prec: 'P1',
+          prec: this.props.bookPrec,
           freq: 'F1',
           len: '25',
         }),
@@ -75,9 +79,18 @@ export class WebsocketConnection extends React.Component {
     this.socket.addEventListener('message', event => {
       const msg = JSON.parse(event.data);
       if (msg.event) {
+        switch (msg.event) {
+          case 'subscribed':
+            this.onChannelSubscribed(msg);
+            break;
+          case 'error': {
+            console.warn(msg.code, msg.msg);
+            break;
+          }
+          default:
+            break;
+        }
         if (msg.event === 'subscribed') {
-          channels[msg.chanId] = msg.channel;
-          this.onChannelSubscribed(msg);
         }
         return;
       }
@@ -148,6 +161,27 @@ export class WebsocketConnection extends React.Component {
         console.warn('Message for unknown channel received', chanId);
     }
   };
+
+  refreshBook = ({ prec }) => {
+    this.socket.send(
+      JSON.stringify({
+        event: 'unsubscribe',
+        chanId: this.props.book.channel.chanId,
+      }),
+    );
+
+    this.socket.send(
+      JSON.stringify({
+        event: 'subscribe',
+        channel: 'book',
+        symbol: 'tBTCUSD',
+        prec,
+        freq: 'F1',
+        len: '25',
+      }),
+    );
+  };
+
   render = () =>
     this.props.children &&
     this.props.children({
@@ -163,6 +197,7 @@ export default connect(
     book: state.data.book,
     trades: state.data.trades,
     status: state.socket.status,
+    bookPrec: state.settings.bookPrec,
   }),
   dispatch => ({
     setBookChannel: data => dispatch(setBookChannel(data)),
