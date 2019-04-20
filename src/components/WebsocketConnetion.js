@@ -24,14 +24,12 @@ export class WebsocketConnection extends React.Component {
       console.warn('Already connected');
       return;
     }
+
     console.log('Connecting to Websocket');
     this.props.setStatus('loading');
-    // Connect to websocket
-    // Create WebSocket connection.
     this.socket = new WebSocket('wss://api-pub.bitfinex.com/ws/2');
 
     this.socket.addEventListener('open', event => {
-      // Dispatch Connection opened
       console.log('Connected', event);
       this.props.setStatus('online');
 
