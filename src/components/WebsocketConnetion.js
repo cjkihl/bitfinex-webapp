@@ -7,6 +7,8 @@ import {
   updateBookData,
   replaceBookData,
   setTickerData,
+  updateTradesData,
+  replaceTradesData,
 } from '../state/data';
 import { setWebsocketStatus } from '../state/socket';
 
@@ -49,13 +51,13 @@ export class WebsocketConnection extends React.Component {
         }),
       );
 
-      //   socket.send(
-      //     JSON.stringify({
-      //       event: 'subscribe',
-      //       channel: 'trades',
-      //       symbol: 'tBTCUSD',
-      //     }),
-      //   );
+      this.socket.send(
+        JSON.stringify({
+          event: 'subscribe',
+          channel: 'trades',
+          symbol: 'tBTCUSD',
+        }),
+      );
     });
 
     this.socket.onerror = event => {
@@ -128,8 +130,21 @@ export class WebsocketConnection extends React.Component {
         break;
       case ticker.channel.chanId:
         if (Array.isArray(data)) {
-          // Todo support for multiple symbols
+          // Todo support for more symbols
           this.props.setTickerData('tBTCUSD', data);
+        }
+        break;
+      case trades.channel.chanId:
+        if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data[0])) {
+            console.log('Replace trades', data);
+            // Todo support for more symbols
+            this.props.replaceTradesData('tBTCUSD', data);
+          } else {
+            console.log('Update trade', data);
+            // Todo support for more symbols
+            this.props.updateTradesData('tBTCUSD', data);
+          }
         }
         break;
       default:
@@ -158,6 +173,10 @@ export default connect(
     setTradesChannel: data => dispatch(setTradesChannel(data)),
     updateBookData: data => dispatch(updateBookData(data)),
     replaceBookData: data => dispatch(replaceBookData(data)),
+    updateTradesData: (symbol, data) =>
+      dispatch(updateTradesData(symbol, data)),
+    replaceTradesData: (symbol, data) =>
+      dispatch(replaceTradesData(symbol, data)),
     setTickerData: (symbol, data) => dispatch(setTickerData(symbol, data)),
     setStatus: status => dispatch(setWebsocketStatus(status)),
   }),

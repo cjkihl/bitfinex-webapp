@@ -67,6 +67,29 @@ export const replaceBookData = data => {
   };
 };
 
+const TRADE_ADD = 'TRADE_ADD';
+
+export const updateTradesData = data => {
+  const [id, mts, amount, price] = data;
+
+  return {
+    type: TRADE_ADD,
+    payload: { id, mts, amount, price },
+  };
+};
+
+const TRADES_REPLACE = 'TRADES_REPLACE';
+export const replaceTradesData = (symbol, array) => {
+  const data = {};
+  for (const [id, mts, amount, price] of array) {
+    data[id] = { id, mts, amount, price };
+  }
+  return {
+    type: TRADES_REPLACE,
+    payload: { symbol, data },
+  };
+};
+
 const TICKER_SET_CHANNEL = 'TICKER_SET_CHANNEL';
 export const setTickerChannel = payload => ({
   type: TICKER_SET_CHANNEL,
@@ -176,10 +199,15 @@ export default (state = initialState, action) => {
       };
     }
     case TICKER_SET_DATA: {
-      console.log('reducer set', payload.data);
       return {
         ...state,
         ticker: { ...state.ticker, [payload.symbol]: payload.data },
+      };
+    }
+    case TRADES_REPLACE: {
+      return {
+        ...state,
+        trades: { ...state.trades, [payload.symbol]: payload.data },
       };
     }
     default:

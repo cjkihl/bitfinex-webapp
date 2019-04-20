@@ -6,6 +6,7 @@ import WebsocketConnection from './components/WebsocketConnetion';
 import rootReducer from './state';
 import Book from './components/Book';
 import Ticker from './components/Ticker';
+import Trades from './components/Trades';
 import StatusBar from './components/StatusBar';
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
           </WebsocketConnection>
           <Book />
           <Ticker />
+          <Trades />
         </div>
       </Provider>
     );
